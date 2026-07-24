@@ -17,14 +17,14 @@ warnings.filterwarnings('ignore')
 # Configuration de la page
 st.set_page_config(
     page_title="Airbnb NYC - Prediction",
-    page_icon="🏠",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Palette unique : une seule teinte declinee en nuances
+
 PRIMARY = "#2C3E6B"
-PRIMARY_LIGHT = "#5B6FA8"
+PRIMARY_LIGHT = "#5BA870"
 PRIMARY_SOFT = "#EEF0F8"
 TEXT_DARK = "#1E2333"
 TEXT_MUTED = "#6B7280"
@@ -358,7 +358,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-# FORMULAIRE (SIDEBAR)
+# FORMULAIRE  En side barre 
 
 with st.sidebar:
     st.markdown('<div class="section-title">Caracteristiques</div>', unsafe_allow_html=True)
@@ -401,7 +401,7 @@ with st.sidebar:
     st.markdown('<div class="info-text">Modele SVM avec SMOTE. Seuil de decision ajuste par analyse PR-AUC pour optimiser la detection des logements partages.</div>', unsafe_allow_html=True)
 
 
-# RESULTATS (ZONE PRINCIPALE)
+# RESULTATS SOIT ZONE PRINCIPALE
 
 if submitted:
     input_data = {
