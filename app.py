@@ -22,10 +22,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Palette unique : une seule teinte (bleu nuit / indigo) declinee en nuances
-PRIMARY = "#2C3E6B"       # couleur principale
-PRIMARY_LIGHT = "#5B6FA8" # nuance claire
-PRIMARY_SOFT = "#EEF0F8"  # fond tres clair
+# Palette unique : une seule teinte declinee en nuances
+PRIMARY = "#2C3E6B"
+PRIMARY_LIGHT = "#5B6FA8"
+PRIMARY_SOFT = "#EEF0F8"
 TEXT_DARK = "#1E2333"
 TEXT_MUTED = "#6B7280"
 BORDER = "#E5E7EB"
@@ -38,37 +38,58 @@ st.markdown(f"""
         font-family: 'Inter', sans-serif;
     }}
 
-    .main-header {{
-        font-size: 2.3rem;
-        font-weight: 700;
-        color: {TEXT_DARK};
-        margin-bottom: 0.3rem;
-        letter-spacing: -0.02em;
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
+    header {{visibility: hidden;}}
+
+    .block-container {{
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        max-width: 1200px;
     }}
 
-    .sub-header {{
-        font-size: 1rem;
-        color: {TEXT_MUTED};
-        font-weight: 400;
-        margin-bottom: 2rem;
+    /* Bandeau d'en-tete */
+    .app-header {{
+        background: {PRIMARY};
+        border-radius: 12px;
+        padding: 1.6rem 1rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }}
+
+    .app-title {{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.01em;
+    }}
+
+    .app-subtitle {{
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.75);
+        margin-top: 0.35rem;
     }}
 
     .card {{
         background: #ffffff;
         border-radius: 10px;
-        padding: 1.4rem;
+        padding: 1.2rem;
         border: 1px solid {BORDER};
         margin-bottom: 1rem;
     }}
 
     .metric-value {{
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: 700;
         color: {TEXT_DARK};
     }}
 
     .metric-label {{
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: {TEXT_MUTED};
         text-transform: uppercase;
         letter-spacing: 0.04em;
@@ -77,22 +98,26 @@ st.markdown(f"""
     .prediction-box {{
         background: {PRIMARY};
         color: white;
-        padding: 1.8rem;
+        padding: 1.6rem;
         border-radius: 12px;
         text-align: center;
-        margin: 1rem 0;
+        margin-bottom: 1rem;
     }}
 
     .prediction-title {{
-        font-size: 0.8rem;
-        opacity: 0.85;
-        margin-bottom: 0.4rem;
+        font-size: 0.78rem;
+        opacity: 0.8;
+        margin-bottom: 0.5rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
     }}
 
     .prediction-result {{
-        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        font-size: 1.7rem;
         font-weight: 700;
         margin-bottom: 0.4rem;
     }}
@@ -101,7 +126,7 @@ st.markdown(f"""
         background: rgba(255,255,255,0.25);
         border-radius: 10px;
         height: 6px;
-        margin-top: 0.9rem;
+        margin-top: 0.8rem;
         overflow: hidden;
     }}
 
@@ -112,11 +137,11 @@ st.markdown(f"""
     }}
 
     .section-title {{
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         font-weight: 600;
         color: {TEXT_DARK};
-        margin: 1.8rem 0 1rem 0;
-        padding-bottom: 0.4rem;
+        margin: 1.4rem 0 0.8rem 0;
+        padding-bottom: 0.35rem;
         border-bottom: 2px solid {PRIMARY};
         display: inline-block;
     }}
@@ -124,19 +149,21 @@ st.markdown(f"""
     .info-text {{
         background: {PRIMARY_SOFT};
         border-left: 3px solid {PRIMARY};
-        padding: 1rem;
+        padding: 0.9rem;
         border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
+        margin-top: 1rem;
         color: {TEXT_DARK};
+        font-size: 0.85rem;
     }}
 
     .stButton>button {{
         background: {PRIMARY};
         color: white;
         border-radius: 8px;
-        padding: 0.7rem 2rem;
+        padding: 0.65rem 1.5rem;
         font-weight: 500;
         border: none;
+        width: 100%;
         transition: background 0.2s ease;
     }}
 
@@ -146,17 +173,17 @@ st.markdown(f"""
 
     .footer {{
         text-align: center;
-        padding: 2rem;
+        padding: 1.5rem;
         color: #A1A5B0;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         border-top: 1px solid {BORDER};
-        margin-top: 3rem;
+        margin-top: 2rem;
     }}
 
     .factor-row {{
         display: flex;
         align-items: center;
-        padding: 0.7rem;
+        padding: 0.65rem 0.75rem;
         background: {PRIMARY_SOFT};
         border-radius: 8px;
         margin-bottom: 0.5rem;
@@ -167,10 +194,66 @@ st.markdown(f"""
         height: 7px;
         background: {PRIMARY};
         border-radius: 50%;
-        margin-right: 1rem;
+        margin-right: 0.9rem;
+        flex-shrink: 0;
+    }}
+
+    .empty-state {{
+        text-align: center;
+        padding: 3rem 1.5rem;
+        color: {TEXT_MUTED};
+    }}
+
+    section[data-testid="stSidebar"] {{
+        background: #ffffff;
+        border-right: 1px solid {BORDER};
+    }}
+
+    section[data-testid="stSidebar"] .card {{
+        box-shadow: none;
     }}
 </style>
 """, unsafe_allow_html=True)
+
+
+# ICONES (SVG simples, monochromes, pas d'emojis)
+
+def icon_house(color="#ffffff", size=22):
+    return f"""<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 9.5V20a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V9.5"/><path d="M9.5 21v-6h5v6"/></svg>"""
+
+
+def icon_building(color, size=22):
+    return f"""<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><line x1="9" y1="7" x2="9" y2="7.01"/><line x1="15" y1="7" x2="15" y2="7.01"/><line x1="9" y1="11" x2="9" y2="11.01"/><line x1="15" y1="11" x2="15" y2="11.01"/><line x1="9" y1="15" x2="9" y2="15.01"/><line x1="15" y1="15" x2="15" y2="15.01"/></svg>"""
+
+
+def icon_door(color, size=22):
+    return f"""<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="1"/><line x1="6" y1="21.5" x2="18" y2="21.5"/><circle cx="14.5" cy="12" r="0.6" fill="{color}"/></svg>"""
+
+
+def icon_bed(color, size=22):
+    return f"""<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17V8.5a1.5 1.5 0 0 1 1.5-1.5h4A1.5 1.5 0 0 1 9 8.5V13"/><path d="M15 13V8.5A1.5 1.5 0 0 1 16.5 7h4A1.5 1.5 0 0 1 22 8.5V17"/><path d="M2 13h20v6H2z"/><line x1="2" y1="19" x2="2" y2="21"/><line x1="22" y1="19" x2="22" y2="21"/></svg>"""
+
+
+ROOM_COLORS = {
+    'Entire home/apt': PRIMARY,
+    'Private room': PRIMARY_LIGHT,
+    'Shared room': "#9CA8D6",
+}
+
+ROOM_ICON_FN = {
+    'Entire home/apt': icon_building,
+    'Private room': icon_door,
+    'Shared room': icon_bed,
+}
+
+
+def get_room_color(room_type):
+    return ROOM_COLORS.get(room_type, PRIMARY)
+
+
+def get_room_icon_svg(room_type, color="#ffffff", size=26):
+    fn = ROOM_ICON_FN.get(room_type, icon_building)
+    return fn(color, size)
 
 
 # CHARGEMENT DES DONNEES
@@ -254,28 +337,6 @@ def predict_with_threshold(probas, threshold):
     return np.array(predictions)
 
 
-# Une seule teinte declinee en trois nuances pour les types de logement
-ROOM_COLORS = {
-    'Entire home/apt': PRIMARY,
-    'Private room': PRIMARY_LIGHT,
-    'Shared room': "#9CA8D6",
-}
-
-ROOM_ICONS = {
-    'Entire home/apt': '🏢',
-    'Private room': '🚪',
-    'Shared room': '🛏️',
-}
-
-
-def get_room_color(room_type):
-    return ROOM_COLORS.get(room_type, PRIMARY)
-
-
-def get_room_icon(room_type):
-    return ROOM_ICONS.get(room_type, '🏠')
-
-
 # CHARGEMENT
 
 df_raw = load_dataset()
@@ -288,22 +349,21 @@ if model is None:
 
 # HEADER
 
-st.markdown('<div class="main-header">Airbnb NYC Predictor</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Prediction du type de logement a partir des caracteristiques du bien</div>', unsafe_allow_html=True)
+st.markdown(f"""
+<div class="app-header">
+    <div class="app-title">{icon_house("#ffffff", 26)}<span>Airbnb NYC Predictor</span></div>
+    <div class="app-subtitle">Prediction du type de logement a partir des caracteristiques du bien</div>
+</div>
+""", unsafe_allow_html=True)
 
 
-col_left, col_right = st.columns([1, 1.2])
+# FORMULAIRE (SIDEBAR)
 
-
-# FORMULAIRE
-
-with col_left:
-    st.markdown('<div class="section-title">Caracteristiques du logement</div>', unsafe_allow_html=True)
+with st.sidebar:
+    st.markdown('<div class="section-title">Caracteristiques</div>', unsafe_allow_html=True)
 
     with st.form("prediction_form"):
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-
-        st.subheader("Localisation")
+        st.markdown("**Localisation**")
 
         borough_options = ['Brooklyn', 'Manhattan', 'Queens', 'Bronx', 'Staten Island']
         neighbourhood_group = st.selectbox("Arrondissement", borough_options, index=0)
@@ -316,93 +376,77 @@ with col_left:
             index=0,
             help="Les quartiers proposes correspondent a l'arrondissement selectionne"
         )
+        st.caption(f"{len(available_neighbourhoods)} quartiers disponibles")
 
-        st.caption(f"{len(available_neighbourhoods)} quartiers disponibles dans {neighbourhood_group}")
+        col_lat, col_lon = st.columns(2)
+        with col_lat:
+            latitude = st.number_input("Latitude", value=40.7128, format="%.4f")
+        with col_lon:
+            longitude = st.number_input("Longitude", value=-74.0060, format="%.4f")
 
-        latitude = st.number_input("Latitude", value=40.7128, format="%.6f")
-        longitude = st.number_input("Longitude", value=-74.0060, format="%.6f")
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.subheader("Prix et disponibilite")
-
-        col3, col4 = st.columns(2)
-        with col3:
-            price = st.number_input("Prix par nuit ($)", min_value=10, max_value=10000, value=150)
-        with col4:
-            minimum_nights = st.number_input("Nuits minimum", min_value=1, max_value=365, value=2)
-
+        st.markdown("**Prix et disponibilite**")
+        price = st.number_input("Prix par nuit ($)", min_value=10, max_value=10000, value=150)
+        minimum_nights = st.number_input("Nuits minimum", min_value=1, max_value=365, value=2)
         availability_365 = st.slider("Jours de disponibilite / an", 0, 365, 200)
 
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.subheader("Avis clients")
-
-        col5, col6 = st.columns(2)
-        with col5:
-            number_of_reviews = st.number_input("Nombre d'avis", min_value=0, max_value=1000, value=45)
-        with col6:
-            reviews_per_month = st.number_input("Avis par mois", min_value=0.0, max_value=50.0, value=2.5, step=0.1)
-
+        st.markdown("**Avis clients**")
+        number_of_reviews = st.number_input("Nombre d'avis", min_value=0, max_value=1000, value=45)
+        reviews_per_month = st.number_input("Avis par mois", min_value=0.0, max_value=50.0, value=2.5, step=0.1)
         last_review = st.date_input("Dernier avis", value=datetime(2019, 6, 15))
-        calculated_host_listings_count = st.number_input("Nombre de logements de l'hote", min_value=1, max_value=500, value=3)
-
-        st.markdown('</div>', unsafe_allow_html=True)
+        calculated_host_listings_count = st.number_input("Logements de l'hote", min_value=1, max_value=500, value=3)
 
         submitted = st.form_submit_button("Predire le type de logement")
 
-    st.markdown('<div class="info-text">', unsafe_allow_html=True)
-    st.markdown("""
-    **A propos du modele**
-
-    Ce modele utilise un SVM (Support Vector Machine) avec SMOTE pour gerer le desequilibre des classes.
-    Le seuil de decision est ajuste via l'analyse PR-AUC pour optimiser la detection des logements partages.
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="info-text">Modele SVM avec SMOTE. Seuil de decision ajuste par analyse PR-AUC pour optimiser la detection des logements partages.</div>', unsafe_allow_html=True)
 
 
-# RESULTATS
+# RESULTATS (ZONE PRINCIPALE)
 
-with col_right:
-    if submitted:
-        input_data = {
-            'neighbourhood_group': neighbourhood_group,
-            'neighbourhood': neighbourhood,
-            'latitude': latitude,
-            'longitude': longitude,
-            'price': price,
-            'minimum_nights': minimum_nights,
-            'number_of_reviews': number_of_reviews,
-            'reviews_per_month': reviews_per_month,
-            'calculated_host_listings_count': calculated_host_listings_count,
-            'availability_365': availability_365,
-            'last_review': pd.Timestamp(last_review)
-        }
+if submitted:
+    input_data = {
+        'neighbourhood_group': neighbourhood_group,
+        'neighbourhood': neighbourhood,
+        'latitude': latitude,
+        'longitude': longitude,
+        'price': price,
+        'minimum_nights': minimum_nights,
+        'number_of_reviews': number_of_reviews,
+        'reviews_per_month': reviews_per_month,
+        'calculated_host_listings_count': calculated_host_listings_count,
+        'availability_365': availability_365,
+        'last_review': pd.Timestamp(last_review)
+    }
 
-        df_input = prepare_input(input_data)
+    df_input = prepare_input(input_data)
 
-        probabilities = model.predict_proba(df_input)
-        prediction = predict_with_threshold(probabilities, threshold)
-        room_type = label_encoder.inverse_transform(prediction)[0]
-        confidence = probabilities[0][prediction[0]]
+    probabilities = model.predict_proba(df_input)
+    prediction = predict_with_threshold(probabilities, threshold)
+    room_type = label_encoder.inverse_transform(prediction)[0]
+    confidence = probabilities[0][prediction[0]]
 
-        room_color = get_room_color(room_type)
+    col_result, col_chart = st.columns([1, 1.3])
 
+    with col_result:
         st.markdown(f"""
         <div class="prediction-box">
             <div class="prediction-title">Type de logement predit</div>
-            <div class="prediction-result">{get_room_icon(room_type)} {room_type}</div>
-            <div style="font-size: 0.95rem; opacity: 0.85;">Confiance : {confidence*100:.1f}%</div>
+            <div class="prediction-result">{get_room_icon_svg(room_type, "#ffffff", 24)}<span>{room_type}</span></div>
+            <div style="font-size: 0.9rem; opacity: 0.85;">Confiance : {confidence*100:.1f}%</div>
             <div class="confidence-bar">
                 <div class="confidence-fill" style="width: {confidence*100}%;"></div>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<div class="section-title">Probabilites par classe</div>', unsafe_allow_html=True)
+        m1, m2, m3 = st.columns(3)
+        with m1:
+            st.markdown(f'<div class="card"><div class="metric-value">{price}$</div><div class="metric-label">Prix / nuit</div></div>', unsafe_allow_html=True)
+        with m2:
+            st.markdown(f'<div class="card"><div class="metric-value">{number_of_reviews}</div><div class="metric-label">Avis recus</div></div>', unsafe_allow_html=True)
+        with m3:
+            st.markdown(f'<div class="card"><div class="metric-value">{availability_365}</div><div class="metric-label">Jours dispo.</div></div>', unsafe_allow_html=True)
 
+    with col_chart:
         prob_df = pd.DataFrame({
             'Type de logement': label_encoder.classes_,
             'Probabilite': probabilities[0] * 100
@@ -417,85 +461,65 @@ with col_right:
             textposition='outside',
             textfont=dict(size=12)
         ))
-
         fig.update_layout(
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
-            yaxis_title='Probabilite (%)',
+            title=dict(text="Probabilites par classe", font=dict(size=14, color=TEXT_DARK)),
+            yaxis_title='',
             xaxis_title='',
             showlegend=False,
-            height=340,
-            margin=dict(t=30, b=30, l=30, r=30),
+            height=300,
+            margin=dict(t=40, b=20, l=20, r=20),
             yaxis=dict(range=[0, 105]),
             font=dict(color=TEXT_DARK)
         )
-
         st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown('<div class="section-title">Details de la prediction</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Facteurs influents</div>', unsafe_allow_html=True)
 
-        m1, m2, m3 = st.columns(3)
-        with m1:
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown(f'<div class="metric-value">{price}$</div>', unsafe_allow_html=True)
-            st.markdown('<div class="metric-label">Prix / nuit</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+    factors = []
+    if price < 50:
+        factors.append(("Prix bas (< 50$)", "Favorise les logements partages"))
+    elif price > 200:
+        factors.append(("Prix eleve (> 200$)", "Favorise les logements entiers"))
 
-        with m2:
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown(f'<div class="metric-value">{number_of_reviews}</div>', unsafe_allow_html=True)
-            st.markdown('<div class="metric-label">Avis recus</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+    if minimum_nights == 1:
+        factors.append(("Sejour court", "Typique des chambres privees"))
 
-        with m3:
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown(f'<div class="metric-value">{availability_365}</div>', unsafe_allow_html=True)
-            st.markdown('<div class="metric-label">Jours disponibles</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+    if number_of_reviews < 5:
+        factors.append(("Peu d'avis", "Nouveau logement ou peu frequente"))
 
-        st.markdown('<div class="section-title">Facteurs influents</div>', unsafe_allow_html=True)
+    if calculated_host_listings_count > 10:
+        factors.append(("Hote professionnel", "Probablement un logement entier"))
 
-        factors = []
-        if price < 50:
-            factors.append(("Prix bas (< 50$)", "Favorise les logements partages"))
-        elif price > 200:
-            factors.append(("Prix eleve (> 200$)", "Favorise les logements entiers"))
+    if not factors:
+        factors.append(("Profil standard", "Caracteristiques equilibrees"))
 
-        if minimum_nights == 1:
-            factors.append(("Sejour court", "Typique des chambres privees"))
-
-        if number_of_reviews < 5:
-            factors.append(("Peu d'avis", "Nouveau logement ou peu frequente"))
-
-        if calculated_host_listings_count > 10:
-            factors.append(("Hote professionnel", "Probablement un logement entier"))
-
-        if not factors:
-            factors.append(("Profil standard", "Caracteristiques equilibrees"))
-
-        for factor, desc in factors:
+    fcols = st.columns(2)
+    for i, (factor, desc) in enumerate(factors):
+        with fcols[i % 2]:
             st.markdown(f"""
             <div class="factor-row">
                 <div class="factor-dot"></div>
                 <div>
-                    <div style="font-weight: 600; color: {TEXT_DARK};">{factor}</div>
-                    <div style="font-size: 0.85rem; color: {TEXT_MUTED};">{desc}</div>
+                    <div style="font-weight: 600; color: {TEXT_DARK}; font-size: 0.9rem;">{factor}</div>
+                    <div style="font-size: 0.8rem; color: {TEXT_MUTED};">{desc}</div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
-    else:
-        st.markdown(f"""
-        <div style="text-align: center; padding: 4rem 2rem; color: {TEXT_MUTED};">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🏠</div>
-            <div style="font-size: 1.1rem; font-weight: 500; color: {TEXT_DARK}; margin-bottom: 0.5rem;">
-                Remplissez le formulaire
-            </div>
-            <div style="font-size: 0.9rem;">
-                Les resultats de prediction s'afficheront ici
-            </div>
+else:
+    st.markdown(f"""
+    <div class="empty-state">
+        {icon_house(PRIMARY_LIGHT, 42)}
+        <div style="font-size: 1.05rem; font-weight: 500; color: {TEXT_DARK}; margin-top: 0.8rem;">
+            Remplissez le formulaire dans le menu lateral
         </div>
-        """, unsafe_allow_html=True)
+        <div style="font-size: 0.85rem; margin-top: 0.2rem;">
+            Les resultats de prediction s'afficheront ici
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # ANALYSE
@@ -508,41 +532,33 @@ with tab1:
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.subheader("Repartition des types de logement")
+        st.markdown("**Repartition des types de logement**")
         dist_data = pd.DataFrame({
             'Type': ['Entire home/apt', 'Private room', 'Shared room'],
             'Count': [25409, 22326, 1160],
-            'Pourcentage': [51.97, 45.66, 2.37]
         })
 
         fig_pie = px.pie(
-            dist_data,
-            values='Count',
-            names='Type',
-            color='Type',
-            color_discrete_map=ROOM_COLORS,
-            hole=0.4
+            dist_data, values='Count', names='Type', color='Type',
+            color_discrete_map=ROOM_COLORS, hole=0.45
         )
-        fig_pie.update_traces(textinfo='percent+label', textfont_size=12)
-        fig_pie.update_layout(showlegend=False, height=380, margin=dict(t=30, b=30, l=30, r=30), font=dict(color=TEXT_DARK))
+        fig_pie.update_traces(textinfo='percent+label', textfont_size=11)
+        fig_pie.update_layout(showlegend=False, height=320, margin=dict(t=10, b=10, l=10, r=10), font=dict(color=TEXT_DARK))
         st.plotly_chart(fig_pie, use_container_width=True)
 
     with col_b:
-        st.subheader("Prix moyen par arrondissement")
+        st.markdown("**Prix moyen par arrondissement**")
         borough_data = pd.DataFrame({
             'Arrondissement': ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island'],
             'Prix moyen': [220, 150, 120, 95, 85]
         })
 
-        fig_bar = px.bar(
-            borough_data, x='Arrondissement', y='Prix moyen',
-            color_discrete_sequence=[PRIMARY]
-        )
-        fig_bar.update_layout(showlegend=False, height=380, margin=dict(t=30, b=30, l=30, r=30), font=dict(color=TEXT_DARK))
+        fig_bar = px.bar(borough_data, x='Arrondissement', y='Prix moyen', color_discrete_sequence=[PRIMARY])
+        fig_bar.update_layout(showlegend=False, height=320, margin=dict(t=10, b=10, l=10, r=10), font=dict(color=TEXT_DARK))
         st.plotly_chart(fig_bar, use_container_width=True)
 
 with tab2:
-    st.subheader("Distribution des prix par type de logement")
+    st.markdown("**Distribution des prix par type de logement**")
 
     np.random.seed(42)
     price_data = []
@@ -554,11 +570,11 @@ with tab2:
     price_df = pd.DataFrame(price_data)
 
     fig_box = px.box(price_df, x='Type', y='Prix', color='Type', color_discrete_map=ROOM_COLORS)
-    fig_box.update_layout(showlegend=False, height=430, margin=dict(t=30, b=30, l=30, r=30), yaxis_title='Prix par nuit ($)', font=dict(color=TEXT_DARK))
+    fig_box.update_layout(showlegend=False, height=380, margin=dict(t=10, b=10, l=10, r=10), yaxis_title='Prix par nuit ($)', font=dict(color=TEXT_DARK))
     st.plotly_chart(fig_box, use_container_width=True)
 
 with tab3:
-    st.subheader("Carte des logements (echantillon)")
+    st.markdown("**Carte des logements (echantillon)**")
 
     np.random.seed(42)
     map_data = pd.DataFrame({
@@ -570,8 +586,7 @@ with tab3:
 
     fig_map = px.scatter_mapbox(
         map_data, lat='lat', lon='lon', color='type', size='price',
-        color_discrete_map=ROOM_COLORS,
-        zoom=10, height=480
+        color_discrete_map=ROOM_COLORS, zoom=10, height=430
     )
     fig_map.update_layout(
         mapbox_style="carto-positron", margin=dict(t=0, b=0, l=0, r=0),
@@ -582,10 +597,7 @@ with tab3:
 
 st.markdown("""
 <div class="footer">
-    <div style="font-weight: 600; color: #6B7280; margin-bottom: 0.4rem;">
-        Projet Airbnb NYC
-    </div>
+    <div style="font-weight: 600; color: #6B7280;">Projet Airbnb NYC</div>
     <div>Modele : SVM avec SMOTE &nbsp;|&nbsp; Dataset : Inside Airbnb</div>
-    <div style="margin-top: 0.4rem; font-size: 0.78rem;">Developpe dans le cadre d'un projet academique</div>
 </div>
 """, unsafe_allow_html=True)
