@@ -40,7 +40,8 @@ st.markdown(f"""
 
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
-    header {{visibility: hidden;}}
+    .stDeployButton {{display: none;}}
+    header {{background: transparent;}}
 
     .block-container {{
         padding-top: 1rem;
